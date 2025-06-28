@@ -80,32 +80,7 @@ func (middleware *Middleware) Auth(h appAuthHandler) http.HandlerFunc {
 			return
 		}
 
-		jobId, err := strconv.Atoi(fmt.Sprint(claims["job_id"]))
-		if err != nil {
-			fmt.Println("2 err: ", err)
-
-			w.WriteHeader(http.StatusUnauthorized)
-			return
-		}
-
-		borderIdStr := claims["border_id"]
-		if borderIdStr == nil {
-			authClaims.BorderId = nil
-		} else {
-			borderId, err := strconv.Atoi(fmt.Sprint(borderIdStr))
-			if err != nil {
-				fmt.Println("border err 2: ", err)
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
-			authClaims.BorderId = &borderId
-		}
-
-		filialId, _ := strconv.Atoi(fmt.Sprint(claims["filial_id"]))
-
 		authClaims.Id = id
-		authClaims.JobId = jobId
-		authClaims.FilialId = filialId
 
 		result := h(w, r, authClaims)
 
