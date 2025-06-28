@@ -14,6 +14,8 @@ var Unauthorized = newResult(http.StatusUnauthorized)
 var Forbidden = newResult(http.StatusForbidden)
 var UnprocessableEntity = newResult(http.StatusUnprocessableEntity)
 var InternalServerError = newResult(http.StatusInternalServerError)
+var TooManyRequests = newResult(http.StatusTooManyRequests)
+var NotAcceptable = newResult(http.StatusNotAcceptable)
 
 type Response interface {
 	SetData(data interface{}) *result
