@@ -16,6 +16,7 @@ var UnprocessableEntity = newResult(http.StatusUnprocessableEntity)
 var InternalServerError = newResult(http.StatusInternalServerError)
 var TooManyRequests = newResult(http.StatusTooManyRequests)
 var NotAcceptable = newResult(http.StatusNotAcceptable)
+var Accepted = newResult(http.StatusAccepted)
 
 type Response interface {
 	SetData(data interface{}) *result
