@@ -19,10 +19,7 @@ type appBaseHandler func(w http.ResponseWriter, r *http.Request) Response
 type appAuthHandler func(w http.ResponseWriter, r *http.Request, claims AuthClaims) Response
 
 type AuthClaims struct {
-	Id       int
-	JobId    int
-	BorderId *int
-	FilialId int
+	Id int
 }
 
 func NewMiddleware(logger *slog.Logger, jwtKey string, limiter *RateLimiter) *Middleware {
