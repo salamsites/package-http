@@ -19,7 +19,7 @@ type appBaseHandler func(w http.ResponseWriter, r *http.Request) Response
 type appAuthHandler func(w http.ResponseWriter, r *http.Request, claims AuthClaims) Response
 
 type AuthClaims struct {
-	Id int
+	Id int64
 }
 
 func NewMiddleware(logger *slog.Logger, jwtKey string, limiter *RateLimiter) *Middleware {
@@ -69,10 +69,10 @@ func (middleware *Middleware) Auth(h appAuthHandler) http.HandlerFunc {
 
 		authClaims := AuthClaims{}
 
-		id, err := strconv.Atoi(fmt.Sprint(claims["id"]))
+		idStr := fmt.Sprint(claims["id"])
+		id, err := strconv.ParseInt(idStr, 10, 64)
 		if err != nil {
 			fmt.Println("2 err: ", err)
-
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
@@ -112,10 +112,10 @@ func (middleware *Middleware) PAuth(h appAuthHandler) http.HandlerFunc {
 
 		authClaims := AuthClaims{}
 		fmt.Println(claims["id"])
-		id, err := strconv.Atoi(fmt.Sprint(claims["id"]))
+		idStr := fmt.Sprint(claims["id"])
+		id, err := strconv.ParseInt(idStr, 10, 64)
 		if err != nil {
 			fmt.Println("2 err: ", err)
-
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
