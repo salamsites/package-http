@@ -19,7 +19,8 @@ type appBaseHandler func(w http.ResponseWriter, r *http.Request) Response
 type appAuthHandler func(w http.ResponseWriter, r *http.Request, claims AuthClaims) Response
 
 type AuthClaims struct {
-	Id int64
+	Id       int64
+	DeviceId int64
 }
 
 func NewMiddleware(logger *slog.Logger, jwtKey string, limiter *RateLimiter) *Middleware {
@@ -69,7 +70,7 @@ func (middleware *Middleware) Auth(h appAuthHandler) http.HandlerFunc {
 
 		authClaims := AuthClaims{}
 
-		idStr := fmt.Sprint(claims["id"])
+		idStr := fmt.Sprint(claims["user_id"])
 		id, err := strconv.ParseInt(idStr, 10, 64)
 		if err != nil {
 			fmt.Println("2 err: ", err)
@@ -77,7 +78,16 @@ func (middleware *Middleware) Auth(h appAuthHandler) http.HandlerFunc {
 			return
 		}
 
+		deviceIdStr := fmt.Sprint(claims["device_id"])
+		deviceId, err := strconv.ParseInt(deviceIdStr, 10, 64)
+		if err != nil {
+			fmt.Println("2 err: ", err)
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+
 		authClaims.Id = id
+		authClaims.DeviceId = deviceId
 
 		result := h(w, r, authClaims)
 
