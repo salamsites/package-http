@@ -5,7 +5,6 @@ import (
 	"net/http"
 )
 
-var Result = &result{}
 var Success = newResult(http.StatusOK)
 var NoContent = newResult(http.StatusNoContent)
 var BadRequest = newResult(http.StatusBadRequest)
@@ -23,6 +22,12 @@ type Response interface {
 	SetStatusCode(statusCode int) *result
 	GetStatusCode() int
 	Marshal() []byte
+}
+
+type Result struct {
+	Status  bool
+	Message string
+	Data    interface{}
 }
 
 type result struct {
