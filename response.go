@@ -26,9 +26,9 @@ type Response interface {
 }
 
 type Result struct {
-	Status  bool
-	Message string
-	Data    interface{}
+	Status  bool        `json:"status"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
 }
 
 type result struct {
