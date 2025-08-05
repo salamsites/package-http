@@ -17,6 +17,7 @@ var InternalServerError = newResult(http.StatusInternalServerError)
 var TooManyRequests = newResult(http.StatusTooManyRequests)
 var NotAcceptable = newResult(http.StatusNotAcceptable)
 var Accepted = newResult(http.StatusAccepted)
+var NotFound = newResult(http.StatusNotFound)
 
 type Response interface {
 	SetData(data interface{}) *result
